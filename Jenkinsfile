@@ -14,20 +14,22 @@ pipeline {
             }
         }
 
-        stage('Audit & Test Parallel') {
+        stage('Audit & Test in Parallel') {
             parallel {
-                audit: {
+                stage('Security Audit') {
                     steps {
                         bat 'npm audit'
                     }
                 }
-                test: {
+
+                stage('Run Tests') {
                     steps {
                         bat 'npm run test'
                     }
                 }
             }
         }
+
     }
 
     post {
