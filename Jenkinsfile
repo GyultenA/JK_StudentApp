@@ -7,26 +7,27 @@ pipeline {
                 checkout scm
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
             }
         }
 
-        stage('Security Audit'){
-            steps{
-                bat 'npm audit'
+        stage('Audit & Test Parallel') {
+            parallel {
+                audit: {
+                    steps {
+                        bat 'npm audit'
+                    }
+                }
+                test: {
+                    steps {
+                        bat 'npm run test'
+                    }
+                }
             }
         }
-
-        stage('Test') {
-            steps {
-                bat 'npm run test'
-            }
-        }
-
-        
     }
 
     post {
