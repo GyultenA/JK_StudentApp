@@ -14,6 +14,12 @@ pipeline {
             }
         }
 
+        stage('Security Audit'){
+            steps{
+                bat 'npm audit'
+            }
+        }
+
         stage('Test') {
             steps {
                 bat 'npm run test'
